@@ -1,6 +1,5 @@
 "use client";
 import {useState} from "react";
-import Error from "next/error";
 import { notFound } from "next/navigation";
 
 export default function UploadPage(){
