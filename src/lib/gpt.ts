@@ -1,27 +1,22 @@
-import {OpenAI} from "openai";
+import { ChatOpenAI } from "@langchain/openai";
+import { HumanMessage, SystemMessage } from "@langchain/core/messages";
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
+
+const llm = new ChatOpenAI({
+    temperature: 0,
+    apiKey: process.env.OPENAI_API_KEY,
+    modelName: "gpt-4",
 });
 
-export async function summarizeText(text: string){
-    const completion = await openai.chat.completions.create({
-        model: "gpt-4",
-        messages: [
-            {
-                role: "system",
-                content: `You are an assistant helping to summarize HomeOwners Association annual reports.
-                Extract and summarize: 1. name of the association
-                2. board members with roles
-                3. all loans with bank names, amount, interest rate, and duration
-                provide a clear and concise summary for stakeholders`
-            },
-            {
-                role: "user",
-                content: text
-            }
-        ]
-    });
+export async function answerQuery(instructions:string, retrievedChunks: string[]){
+    const context = retrievedChunks.join("\n"); // Combine retrieved chunks
 
-    return completion.choices[0].message.content;
+
+    const response = await llm.call([
+        new SystemMessage(instructions),
+        new HumanMessage(context)
+    ]);
+
+    // Return the summary
+    return response.content;
 }
