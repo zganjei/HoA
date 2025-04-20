@@ -1,6 +1,5 @@
 "use client";
 import {useState} from "react";
-import { notFound } from "next/navigation";
 
 export default function UploadPage(){
     const [file, setFile] = useState<File | null>(null);
