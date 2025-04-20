@@ -23,7 +23,10 @@ export default function UploadPage(){
             const data = await res.json();  
             setSummary(data.summary);
         } catch (err) {
-            setSummary("Error: " + err.message);
+            if (err instanceof Error) {
+                setSummary("Error: " + err.message);
+            }
+            notFound();            
         } 
         // finally {
         //     setLoading(false);
