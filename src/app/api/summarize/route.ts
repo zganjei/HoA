@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import * as parser from "pdf-parse/lib/pdf-parse.js";
+import pdf from "pdf-parse";
 import {summarizeText} from "@/lib/gpt";
 
 export async function POST(req: NextRequest){
@@ -10,7 +10,7 @@ export async function POST(req: NextRequest){
     }
     console.log("Received file:", file.name);
     const buffer = Buffer.from(await file.arrayBuffer());
-    const parsed = await parser(buffer);
+    const parsed = await pdf(buffer);
     const summary = await summarizeText(parsed.text);
     return NextResponse.json({summary});
 
