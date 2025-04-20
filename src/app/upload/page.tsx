@@ -1,6 +1,7 @@
 "use client";
 import {useState} from "react";
 import Error from "next/error";
+import { notFound } from "next/navigation";
 
 export default function UploadPage(){
     const [file, setFile] = useState<File | null>(null);
@@ -16,7 +17,10 @@ export default function UploadPage(){
                 method: "POST",
                 body: formData,
             });
-            if (!res.ok) throw new Error("Failed to summarize");
+            if (!res.ok) {
+                notFound();
+                return;
+            }
             const data = await res.json();  
             setSummary(data.summary);
         } catch (err) {
