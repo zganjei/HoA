@@ -19,7 +19,7 @@ export default function UploadPage(){
             if (!res.ok) throw new Error("Failed to summarize");
             const data = await res.json();  
             setSummary(data.summary);
-        } catch (err : any) {
+        } catch (err) {
             setSummary("Error: " + err.message);
         } 
         // finally {
