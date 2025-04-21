@@ -59,20 +59,15 @@ export async function POST(req: NextRequest) {
   const loan_summary = await answerQuery(loan_instructions, loan_relevantChunks);
   console.log(association_summary);
   console.log(loan_summary);
-//   return NextResponse.json({ 
-//                             // "association":association_summary,
-//                             //  "loan":
-//                              loan_summary
-//                            });
-const cleanJson = (text: string) => text.replace(/```json|```/g, "").trim();
-try {
-    
-    const association = JSON.parse(cleanJson(association_summary));
-    const loan = JSON.parse(cleanJson(loan_summary));
-    const summary = { ...association, ...loan };
-    return NextResponse.json(summary);
-  } catch (err) {
-    console.error("JSON Parse error", err);
-    return NextResponse.json({ error: "Failed to parse response" }, { status: 500 });
-  }
-}
+    const cleanJson = (text: string) => text.replace(/```json|```/g, "").trim();
+    try {
+        
+        const association = JSON.parse(cleanJson(association_summary));
+        const loan = JSON.parse(cleanJson(loan_summary));
+        const summary = { ...association, ...loan };
+        return NextResponse.json(summary);
+    } catch (err) {
+        console.error("JSON Parse error", err);
+        return NextResponse.json({ error: "Failed to parse response" }, { status: 500 });
+    }
+ }

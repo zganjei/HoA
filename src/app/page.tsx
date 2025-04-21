@@ -1,46 +1,88 @@
 "use client";
-import {useState} from "react";
+import { useState } from "react";
 
-export default function UploadPage(){
-    const [file, setFile] = useState<File | null>(null);
-    const [summary, setSummary] = useState("");
-    const [loading, setLoading] = useState(false);
+export default function UploadPage() {
+  const [file, setFile] = useState<File | null>(null);
+  const [summary, setSummary] = useState<any>(null); // Change state type to any to handle structured JSON
+  const [loading, setLoading] = useState(false);
 
-    async function handleSubmit(e: React.FormEvent){
-        e.preventDefault();
-        if(!file) return;
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!file) return;
 
-        const formData = new FormData();
-        formData.append("file",file);
+    const formData = new FormData();
+    formData.append("file", file);
 
-        setLoading(true);
-        setSummary("Loading...");
+    setLoading(true);
+    setSummary(null);
 
-        try{
-            const res = await fetch("/api/summarize",{
-                method: "POST",
-                body: formData,
-            });
-            if (!res.ok) {
-                const errorText = await res.text();
-                throw new Error(`Failed with status ${res.status}: ${errorText}`);
-            }
-            const data = await res.json();  
-            console.log("received...................");
-            console.log(data)
-            setSummary(JSON.stringify(data, null, 2));
-        } catch (err) {
-            if (err instanceof Error) {
-                setSummary("Error: " + err.message);
-            }        
-        } 
-        finally {
-            setLoading(false);
-        }
+    try {
+      const res = await fetch("/api/summarize", {
+        method: "POST",
+        body: formData,
+      });
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`Failed with status ${res.status}: ${errorText}`);
+      }
+      const data = await res.json();
+      setSummary(data); // Set summary as a structured JSON object
+    } catch (err) {
+      if (err instanceof Error) {
+        setSummary("Error: " + err.message);
+      }
+    } finally {
+      setLoading(false);
     }
+  }
 
+  const renderJson = (json: any) => {
     return (
-        <main className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+      <div className="space-y-4">
+        <div>
+          <h3 className="font-bold">Föreningens Namn:</h3>
+          <p>{json.föreningens_namn}</p>
+        </div>
+
+        <div>
+          <h3 className="font-bold">Styrelsemedlemmar:</h3>
+          <ul>
+            {json.styrelsemedlemmar ? (
+              json.styrelsemedlemmar.map((member: any, index: number) => (
+                <li key={index}>
+                  <strong>{member.namn}</strong> - {member.roll}
+                </li>
+              ))
+            ) : (
+              <p>Ej funnet</p>
+            )}
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="font-bold">Sammanfattning:</h3>
+          <p>{json.sammanfattning || "Ej funnet"}</p>
+        </div>
+
+        <div>
+          <h3 className="font-bold">Låneinformation:</h3>
+          {json.låneinformation ? (
+            <div>
+              <p><strong>Banknamn:</strong> {json.låneinformation.banknamn}</p>
+              <p><strong>Lånebelopp:</strong> {json.låneinformation.lånebelopp}</p>
+              <p><strong>Räntesats:</strong> {json.låneinformation.räntesats}</p>
+              <p><strong>Löptid:</strong> {json.låneinformation.löptid}</p>
+            </div>
+          ) : (
+            <p>Ej funnet</p>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <main className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
       <div className="bg-white rounded-2xl shadow-lg p-8 max-w-2xl w-full">
         <h1 className="text-3xl font-bold mb-6 text-gray-800">🏘️ HoA Report Summarizer</h1>
 
@@ -93,12 +135,14 @@ export default function UploadPage(){
         {summary && (
           <div className="mt-6">
             <h2 className="text-xl font-semibold mb-2">📄 Summary</h2>
-            <pre className="whitespace-pre-wrap bg-gray-50 p-4 rounded-lg border border-gray-200 max-h-[400px] overflow-auto text-sm">
-            {summary}
-            </pre>
+            {typeof summary === "string" ? (
+              <p>{summary}</p> // If it's just an error or plain text message
+            ) : (
+              renderJson(summary) // Render the structured JSON if it's available
+            )}
           </div>
         )}
       </div>
     </main>
-    );
+  );
 }
