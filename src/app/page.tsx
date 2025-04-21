@@ -47,7 +47,12 @@ export default function UploadPage(){
             type="file"
             accept=".pdf"
             onChange={(e) => setFile(e.target.files?.[0] || null)}
-            className="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-sm"
+            className="block w-full text-sm text-gray-500
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-full file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-blue-50 file:text-blue-700
+                        hover:file:bg-blue-100"
           />
           <button
             type="submit"

@@ -16,11 +16,12 @@ export async function POST(req: NextRequest){
     const chunks = await parsePDF(buffer);
 
     // Retrieve relevant chunks based on a user query
-    const instructions = `You are an assistant helping to summarize an association's annual report which is in swedish or english.
-                    Extract and summarize: 1. name of the association
-                    2. board members with roles
-                    3. all loans with bank names, amount, interest rate, and duration
-                    provide a clear and concise summary for stakeholders`;
+    const instructions = `Du är en assistent som hjälper till att sammanfatta en bostadsrättsförenings årsredovisning, som kan vara på svenska eller engelska.
+                            Extrahera och sammanfatta följande:
+                            Föreningens namn
+                            Styrelsemedlemmar med roller
+                            Alla lån, inklusive bankernas namn, lånebelopp, räntesats och löptid
+                            Ge en tydlig och koncis sammanfattning för intressenter.`;
     
     const relevantChunks = await retrieveRelevantChunks(instructions, chunks);
 
