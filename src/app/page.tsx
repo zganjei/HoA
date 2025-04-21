@@ -26,7 +26,9 @@ export default function UploadPage(){
                 throw new Error(`Failed with status ${res.status}: ${errorText}`);
             }
             const data = await res.json();  
-            setSummary(data.summary);
+            console.log("received...................");
+            console.log(data)
+            setSummary(JSON.stringify(data, null, 2));
         } catch (err) {
             if (err instanceof Error) {
                 setSummary("Error: " + err.message);
@@ -92,7 +94,7 @@ export default function UploadPage(){
           <div className="mt-6">
             <h2 className="text-xl font-semibold mb-2">📄 Summary</h2>
             <pre className="whitespace-pre-wrap bg-gray-50 p-4 rounded-lg border border-gray-200 max-h-[400px] overflow-auto text-sm">
-              {summary}
+            {summary}
             </pre>
           </div>
         )}
