@@ -4,10 +4,14 @@ import LoanTable from "./LoansTable";
 import SummaryText from "./SummaryText";
 
 type SummaryDisplayProps = {
-  summary: SummaryData | null;
+  summary: SummaryData | string | null;
 };
 
 const SummaryDisplay: React.FC<SummaryDisplayProps> = ({ summary }) => {
+  if (typeof summary === "string") {
+    return <p>{summary}</p>;
+  }
+
   if (!summary) {
     return null;
   }

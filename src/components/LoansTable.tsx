@@ -1,11 +1,20 @@
 import { Låneinformation } from "@/types";
 
 type LoanTableProps = {
-  loanInfo: Låneinformation | Låneinformation[];
+  loanInfo?: Låneinformation | Låneinformation[]; // Make prop optional
 };
 
 const LoanTable: React.FC<LoanTableProps> = ({ loanInfo }) => {
+  if (!loanInfo) {
+    return <p className="text-gray-500">Ingen låneinformation tillgänglig.</p>;
+  }
+
   const loans = Array.isArray(loanInfo) ? loanInfo : [loanInfo];
+
+  if (loans.length === 0) {
+    return <p className="text-gray-500">Ingen låneinformation hittades.</p>;
+  }
+
   return (
     <div className="overflow-x-auto rounded-lg shadow">
       <table className="min-w-full table-auto border-collapse border border-gray-200">

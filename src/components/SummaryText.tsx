@@ -1,5 +1,5 @@
 type SummaryTextProps = {
-    sammanfattning?: string;
+    sammanfattning?: string; // Make prop optional
   };
   
   const SummaryText: React.FC<SummaryTextProps> = ({ sammanfattning }) => (
