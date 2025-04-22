@@ -1,6 +1,6 @@
-import { SummaryData } from "@/types/types";
+import { SummaryData, Låneinformation } from "@/types/types";
 import BoardInfo from "./BoardInfo";
-import LoanTable from "./LoansTable";
+import LoansTable from "./LoansTable"; // Uppdaterat komponentnamn
 import SummaryText from "./SummaryText";
 
 type SummaryDisplayProps = {
@@ -27,8 +27,8 @@ const SummaryDisplay: React.FC<SummaryDisplayProps> = ({ summary }) => {
 
       <div className="mt-6">
         <h3 className="text-xl font-bold mb-2">💰 Låneöversikt</h3>
-        {summary.låneinformation ? (
-          <LoanTable loanInfo={summary.låneinformation} />
+        {summary.låneinformation && Array.isArray(summary.låneinformation) && summary.låneinformation.length > 0 ? (
+          <LoansTable loanInfo={summary.låneinformation} />
         ) : (
           <p className="text-gray-500">Ingen låneinformation hittades.</p>
         )}
