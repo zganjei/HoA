@@ -1,9 +1,28 @@
 "use client";
 import { useState } from "react";
 
+type Styrelsemedlem = {
+  namn: string;
+  roll: string;
+};
+
+type Låneinformation = {
+  banknamn: string;
+  lånebelopp: string;
+  räntesats: string;
+  löptid: string;
+};
+
+type SummaryData = {
+  föreningens_namn: string;
+  styrelsemedlemmar: Styrelsemedlem[];
+  sammanfattning: string;
+  låneinformation: Låneinformation;
+};
+
 export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
-  const [summary, setSummary] = useState<any>(null); // Change state type to any to handle structured JSON
+  const [summary, setSummary] = useState<SummaryData | string | null>(null);
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -26,7 +45,7 @@ export default function UploadPage() {
         throw new Error(`Failed with status ${res.status}: ${errorText}`);
       }
       const data = await res.json();
-      setSummary(data); // Set summary as a structured JSON object
+      setSummary(data);
     } catch (err) {
       if (err instanceof Error) {
         setSummary("Error: " + err.message);
@@ -36,7 +55,7 @@ export default function UploadPage() {
     }
   }
 
-  const renderJson = (json: any) => {
+  const renderJson = (json: SummaryData) => {
     return (
       <div className="space-y-4">
         <div>
@@ -47,8 +66,8 @@ export default function UploadPage() {
         <div>
           <h3 className="font-bold">Styrelsemedlemmar:</h3>
           <ul>
-            {json.styrelsemedlemmar ? (
-              json.styrelsemedlemmar.map((member: any, index: number) => (
+            {json.styrelsemedlemmar?.length ? (
+              json.styrelsemedlemmar.map((member, index) => (
                 <li key={index}>
                   <strong>{member.namn}</strong> - {member.roll}
                 </li>
@@ -136,9 +155,9 @@ export default function UploadPage() {
           <div className="mt-6">
             <h2 className="text-xl font-semibold mb-2">📄 Summary</h2>
             {typeof summary === "string" ? (
-              <p>{summary}</p> // If it's just an error or plain text message
+              <p>{summary}</p>
             ) : (
-              renderJson(summary) // Render the structured JSON if it's available
+              renderJson(summary)
             )}
           </div>
         )}
