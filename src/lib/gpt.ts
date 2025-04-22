@@ -36,7 +36,7 @@ export async function answerQuery(instructions: string, retrievedChunks: string[
     }
 
     // Return the extracted information
-    return response.content;
+    return response.content.toString();
   } catch (error: unknown) {
     console.error("Error calling the language model:", error);
     if (error instanceof Error) {
