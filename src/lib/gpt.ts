@@ -32,7 +32,7 @@ export async function answerQuery(instructions: string, retrievedChunks: string[
 
     // Save the answer to the cache before returning it
     if (response?.content) {
-      aiCache.set(cacheKey, response.content);
+      aiCache.set(cacheKey, response.content.toString());
     }
 
     // Return the extracted information
