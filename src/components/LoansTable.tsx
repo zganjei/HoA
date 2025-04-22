@@ -1,4 +1,4 @@
-import { Låneinformation } from "@/types";
+import { Låneinformation } from "@/types/types";
 
 type LoanTableProps = {
   loanInfo?: Låneinformation | Låneinformation[]; // Make prop optional

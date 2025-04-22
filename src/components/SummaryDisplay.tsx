@@ -1,4 +1,4 @@
-import { SummaryData } from "@/types";
+import { SummaryData } from "@/types/types";
 import BoardInfo from "./BoardInfo";
 import LoanTable from "./LoansTable";
 import SummaryText from "./SummaryText";

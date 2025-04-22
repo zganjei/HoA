@@ -1,4 +1,4 @@
-import { Styrelsemedlem } from "@/types";
+import { Styrelsemedlem } from "@/types/types";
 
 type BoardInfoProps = {
   styrelsemedlemmar: Styrelsemedlem[] | undefined | null; // Explicitly allow undefined or null

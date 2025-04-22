@@ -3,7 +3,7 @@ import { useState } from "react";
 import FileUploader from "@/components/FileUploader";
 import SummaryDisplay from "@/components/SummaryDisplay";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import { SummaryData } from "@/types";
+import { SummaryData } from "@/types/types";
 
 export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
