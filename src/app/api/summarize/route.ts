@@ -65,14 +65,14 @@ Om specifik information för ett lån inte finns (t.ex. räntesats saknas för e
 **Returnera endast giltig JSON. Inkludera inga inledande eller avslutande tecken som \`\`\` eller text.**`;
 
 // --- Helper function to fill the template ---
-function fillTemplate(template: string, data: Record<string, any>): string {
-  let filledTemplate = template;
-  for (const key in data) {
-    const placeholder = `{{${key}}}`;
-    filledTemplate = filledTemplate.replace(new RegExp(placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), JSON.stringify(data[key]));
+function fillTemplate<T extends Record<string, unknown>>(template: string, data: T): string {
+    let filledTemplate = template;
+    for (const key in data) {
+      const placeholder = `{{${key}}}`;
+      filledTemplate = filledTemplate.replace(new RegExp(placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), JSON.stringify(data[key]));
+    }
+    return filledTemplate;
   }
-  return filledTemplate;
-}
 
 export async function POST(req: NextRequest) {
   const form_data = await req.formData();
