@@ -30,12 +30,12 @@ export async function POST(req: NextRequest) {
 
         Ge ett strukturerat JSON-svar med följande format:
         {
-            "föreningens_namn": "Brf Solsidan",
-            "styrelsemedlemmar": [
-            { "namn": "Anna Svensson", "roll": "Ordförande" },
-            { "namn": "Erik Johansson", "roll": "Kassör" }
+            "association": "Brf Solsidan",
+            "members": [
+            { "name": "Anna Svensson", "role": "Ordförande" },
+            { "name": "Erik Johansson", "role": "Kassör" }
             ],
-            "sammanfattning": "Brf Solsidan är en bostadsrättsförening belägen på [adress, om funnet], byggd [år, om funnet]. Föreningen består av [antal] lägenheter och [antal] lokaler. Uppvärmning sker via [typ av uppvärmning, om funnet]. Större renoveringar som genomförts inkluderar [lista, om sammanfattat]. Föreningens ekonomi kan beskrivas som [kort beskrivning, om sammanfattat]. I månadsavgiften ingår [lista över avgifter, om funnet]."
+            "summary": "Brf Solsidan är en bostadsrättsförening belägen på [adress, om funnet], byggd [år, om funnet]. Föreningen består av [antal] lägenheter och [antal] lokaler. Uppvärmning sker via [typ av uppvärmning, om funnet]. Större renoveringar som genomförts inkluderar [lista, om sammanfattat]. Föreningens ekonomi kan beskrivas som [kort beskrivning, om sammanfattat]. I månadsavgiften ingår [lista över avgifter, om funnet]."
         }
 
         Om denna information är uppdelad över flera delar, se till att hämta alla nödvändiga detaljer från föregående och nästa delar för att slutföra extraktionen.
@@ -60,18 +60,18 @@ export async function POST(req: NextRequest) {
 
   Ge ett strukturerat JSON-svar med följande format för information om alla lån och skulder som hittas:
   {
-    "låneinformation": [
+    "loan": [
       {
-        "banknamn": "Nordea",
-        "lånebelopp": "1 800 000 tkr",
-        "räntesats": "4.5%",
-        "löptid": "5 år"
+        "bank": "Nordea",
+        "amount": "1 800 000 tkr",
+        "interest": "4.5%",
+        "term": "5 år"
       },
       {
-        "banknamn": "Swedbank",
-        "lånebelopp": "750 000 tkr",
-        "räntesats": "3.9%",
-        "löptid": "10 år"
+        "bank": "Swedbank",
+        "amount": "750 000 tkr",
+        "interest": "3.9%",
+        "term": "10 år"
       }
       // ... och så vidare för alla lån som hittas
     ]

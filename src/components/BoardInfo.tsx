@@ -1,19 +1,16 @@
-import { Styrelsemedlem } from "@/types/types";
+import { BoardInfoProps } from "@/types/types";
 
-type BoardInfoProps = {
-  styrelsemedlemmar: Styrelsemedlem[] | undefined | null; // Explicitly allow undefined or null
-};
 
-const BoardInfo: React.FC<BoardInfoProps> = ({ styrelsemedlemmar }) => (
+const BoardInfo: React.FC<BoardInfoProps> = ({ members }) => (
   <div>
     <h3 className="font-bold">Styrelsemedlemmar:</h3>
-    {styrelsemedlemmar ? (
-      Array.isArray(styrelsemedlemmar) ? ( // Ensure it's an array before mapping
-        styrelsemedlemmar.length > 0 ? (
+    {members ? (
+      Array.isArray(members) ? ( // Ensure it's an array before mapping
+        members.length > 0 ? (
           <ul>
-            {styrelsemedlemmar.map((member, index) => (
+            {members.map((member, index) => (
               <li key={index}>
-                <strong>{member.namn}</strong> - {member.roll}
+                <strong>{member.name}</strong> - {member.role}
               </li>
             ))}
           </ul>

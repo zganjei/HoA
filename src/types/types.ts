@@ -1,18 +1,41 @@
-export type Styrelsemedlem = {
-    namn: string;
-    roll: string;
+export type Member = {
+    name: string;
+    role: string;
   };
   
-  export type Låneinformation = {
-    banknamn: string;
-    lånebelopp: string;
-    räntesats: string;
-    löptid: string;
+  export type LoanInformation = {
+    bank: string;
+    amount: string;
+    interest: string;
+    term: string;
   };
   
   export type SummaryData = {
-    föreningens_namn: string;
-    styrelsemedlemmar: Styrelsemedlem[];
-    sammanfattning: string;
-    låneinformation: Låneinformation | Låneinformation[]; // Allow for single or multiple loans
+    association: string;
+    members: Member[];
+    summary: string;
+    loan: LoanInformation | LoanInformation[]; // Allow for single or multiple loans
+  };
+
+  
+  export type SummaryDisplayProps = {
+    summary: SummaryData | string | null;
+  };
+  
+  export type FileUploaderProps = {
+    onFileChange: (file: File | null) => void;
+    onSubmit: (event: React.FormEvent) => void;
+    loading: boolean;
+  };
+
+  export type SummaryTextProps = {
+    summary?: string; // Make prop optional
+  };
+
+  export type LoanTableProps = {
+    loanInfo?: LoanInformation | LoanInformation[]; // Make prop optional
+  };
+
+  export type BoardInfoProps = {
+    members: Member[] | undefined | null; // Explicitly allow undefined or null
   };

@@ -1,11 +1,7 @@
 "use client";
 import { useState } from "react";
+import { FileUploaderProps} from "@/types/types";
 
-type FileUploaderProps = {
-  onFileChange: (file: File | null) => void;
-  onSubmit: (event: React.FormEvent) => void;
-  loading: boolean;
-};
 
 const FileUploader: React.FC<FileUploaderProps> = ({ onFileChange, onSubmit, loading }) => {
   const [localFile, setLocalFile] = useState<File | null>(null);

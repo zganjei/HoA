@@ -1,11 +1,8 @@
-import { SummaryData } from "@/types/types";
+import { SummaryDisplayProps} from "@/types/types";
 import BoardInfo from "./BoardInfo";
 import LoansTable from "./LoansTable"; // Uppdaterat komponentnamn
 import SummaryText from "./SummaryText";
 
-type SummaryDisplayProps = {
-  summary: SummaryData | string | null;
-};
 
 const SummaryDisplay: React.FC<SummaryDisplayProps> = ({ summary }) => {
   if (typeof summary === "string") {
@@ -20,21 +17,21 @@ const SummaryDisplay: React.FC<SummaryDisplayProps> = ({ summary }) => {
     <div className="space-y-4">
       <div>
         <h3 className="font-bold">Föreningens Namn:</h3>
-        <p>{summary.föreningens_namn}</p>
+        <p>{summary.association}</p>
       </div>
 
-      <BoardInfo styrelsemedlemmar={summary.styrelsemedlemmar} />
+      <BoardInfo members={summary.members} />
 
       <div className="mt-6">
         <h3 className="text-xl font-bold mb-2">💰 Låneöversikt</h3>
-        {summary.låneinformation && Array.isArray(summary.låneinformation) && summary.låneinformation.length > 0 ? (
-          <LoansTable loanInfo={summary.låneinformation} />
+        {summary.loan && Array.isArray(summary.loan) && summary.loan.length > 0 ? (
+          <LoansTable loanInfo={summary.loan} />
         ) : (
           <p className="text-gray-500">Ingen låneinformation hittades.</p>
         )}
       </div>
 
-      <SummaryText sammanfattning={summary.sammanfattning} />
+      <SummaryText summary={summary.summary} />
     </div>
   );
 };
