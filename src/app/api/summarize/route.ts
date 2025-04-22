@@ -17,8 +17,8 @@ export async function POST(req: NextRequest) {
     const chunks = await parsePDF(buffer);
 
     const association_instructions = 
-        `Du är en assistent som hjälper till att sammanfatta en bostadsrättsförenings årsredovisning. Sök noggrant efter information om Föreningens namn, Styrelsemedlemmar med roller.
-            Ge ett strukturerat JSON-svar med följande format:
+        `Du är en expert på fastighetsrapportanalys som hjälper till att sammanfatta en bostadsrättsförenings årsredovisning. Sök noggrant efter information om Föreningens namn, Styrelsemedlemmar med roller.
+        Ge ett strukturerat JSON-svar med följande format:
         {
         "föreningens_namn": "Brf Solsidan",
         "styrelsemedlemmar": [
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     const association_summary = await answerQuery(association_instructions, association_relevantChunks);
 
     const loan_instructions = 
-        `Du är en assistent som hjälper till att sammanfatta en bostadsrättsförenings årsredovisning. Sök noggrant efter information om lån, skulder och finansiella detaljer.
+        `Du är en expert på fastighetsrapportanalys som hjälper till att sammanfatta en bostadsrättsförenings årsredovisning. Sök noggrant efter information om lån, skulder och finansiella detaljer.
         Låneinformation kan inkludera:
         - Banknamn (t.ex. "Nordea", "SEB", "Swedbank", etc.)
         - Lånebelopp
@@ -59,8 +59,7 @@ export async function POST(req: NextRequest) {
 
     const loan_relevantChunks = await retrieveRelevantChunks(loan_instructions, chunks);
     const loan_summary = await answerQuery(loan_instructions, loan_relevantChunks);
-    try {
-        
+    try {        
         const association = typeof association_summary === "string" ? JSON.parse(association_summary) : association_summary;
         const loan = typeof loan_summary === "string" ? JSON.parse(loan_summary) : loan_summary;
 
