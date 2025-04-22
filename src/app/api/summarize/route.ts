@@ -120,8 +120,6 @@ export async function POST(req: NextRequest) {
   const loan_relevantChunks = await retrieveRelevantChunks(loanInstructions, chunks);
   const loan_summary = await answerQuery(loanInstructions, loan_relevantChunks);
 
-  console.log(association_summary);
-  console.log(loan_summary);
   try {
     const association = typeof association_summary === "string" ? JSON.parse(association_summary) : association_summary;
     const loan = typeof loan_summary === "string" ? JSON.parse(loan_summary) : loan_summary;
