@@ -21,15 +21,15 @@ export default function UploadPage() {
     setSummary(null);
 
     try {
-      const res = await fetch("/api/summarize", {
+      const response = await fetch("/api/summarize", {
         method: "POST",
         body: formData,
       });
-      if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(`Failed with status ${res.status}: ${errorText}`);
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed with status ${response.status}: ${errorText}`);
       }
-      const data = await res.json();
+      const data = await response.json();
       setSummary(data);
     } catch (err) {
       if (err instanceof Error) {

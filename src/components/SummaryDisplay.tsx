@@ -1,6 +1,6 @@
 import { SummaryDisplayProps} from "@/types/types";
 import BoardInfo from "./BoardInfo";
-import LoansTable from "./LoansTable"; // Uppdaterat komponentnamn
+import LoansTable from "./LoansTable";
 import SummaryText from "./SummaryText";
 
 
