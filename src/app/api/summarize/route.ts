@@ -17,25 +17,34 @@ export async function POST(req: NextRequest) {
     const chunks = await parsePDF(buffer);
 
     const association_instructions =
-    `Du är en expert på fastighetsrapportanalys som hjälper till att sammanfatta en bostadsrättsförenings årsredovisning. Sök noggrant efter information om Föreningens namn och Styrelsemedlemmar med roller.
-  
-    Ge ett strukturerat JSON-svar med följande format:
-    {
-      "föreningens_namn": "Brf Solsidan",
-      "styrelsemedlemmar": [
-        { "namn": "Anna Svensson", "roll": "Ordförande" },
-        { "namn": "Erik Johansson", "roll": "Kassör" }
-      ],
-      "sammanfattning": "Brf Solsidan är en bostadsrättsförening. Styrelsen består bland annat av Anna Svensson som är Ordförande och Erik Johansson som är Kassör."
-    }
-  
-    Om denna information är uppdelad över flera delar, se till att hämta alla nödvändiga detaljer från föregående och nästa delar för att slutföra extraktionen.
-    Om informationen inte finns, ange "ej funnet" för varje nyckel.
-  
-    **Sammanfatta de grundläggande fakta om föreningen och dess styrelse baserat på den extraherade informationen. Inkludera föreningens namn och en kort översikt över styrelsens medlemmar och deras roller. Ge ett kort och koncist svar i sammanfattningen liknande exemplet ovan.**
-  
-    Extrahera all information och sammanfattningen i JSON-format.
-    linda inte in i markdown eller lägg till någon text före eller efter.`;
+        `Du är en expert på fastighetsrapportanalys som hjälper till att sammanfatta en bostadsrättsförenings årsredovisning. Sök noggrant efter information om:
+
+        - Föreningens namn
+        - Styrelsemedlemmar med roller
+        - Fastighetens adress och byggår (om det framgår tydligt)
+        - Antal lägenheter och eventuellt lokaler
+        - Typ av uppvärmning (t.ex. fjärrvärme, bergvärme)
+        - Genomförda större renoveringar och planerade renoveringar (om det sammanfattas)
+        - Föreningens ekonomi i stora drag (t.ex. skuldsättning per kvm, resultat)
+        - Eventuella avgifter som ingår i månadsavgiften (t.ex. värme, vatten, bredband)
+
+        Ge ett strukturerat JSON-svar med följande format:
+        {
+            "föreningens_namn": "Brf Solsidan",
+            "styrelsemedlemmar": [
+            { "namn": "Anna Svensson", "roll": "Ordförande" },
+            { "namn": "Erik Johansson", "roll": "Kassör" }
+            ],
+            "sammanfattning": "Brf Solsidan är en bostadsrättsförening belägen på [adress, om funnet], byggd [år, om funnet]. Föreningen består av [antal] lägenheter och [antal] lokaler. Uppvärmning sker via [typ av uppvärmning, om funnet]. Större renoveringar som genomförts inkluderar [lista, om sammanfattat]. Föreningens ekonomi kan beskrivas som [kort beskrivning, om sammanfattat]. I månadsavgiften ingår [lista över avgifter, om funnet]."
+        }
+
+        Om denna information är uppdelad över flera delar, se till att hämta alla nödvändiga detaljer från föregående och nästa delar för att slutföra extraktionen.
+        Om informationen inte finns, ange "ej funnet" för varje nyckel i huvudobjektet (t.ex. "fastighetens_adress": "ej funnet") och inkludera inte den informationen i sammanfattningen.
+
+        **Sammanfatta de viktigaste grundläggande fakta om föreningen och dess styrelse baserat på den extraherade informationen. Inkludera föreningens namn och en kort översikt över styrelsens medlemmar och deras roller. Försök även att inkludera information om fastighetens grundläggande karaktär (adress, byggår, antal lägenheter), uppvärmning, större renoveringar, ekonomi i stora drag och vad som ingår i månadsavgiften, om denna information tydligt framgår i rapporten. Var kortfattad och informativ i sammanfattningen liknande exemplet ovan.**
+
+        Extrahera all information och sammanfattningen i JSON-format.
+        linda inte in i markdown eller lägg till någon text före eller efter.`;
 
     const association_relevantChunks = await retrieveRelevantChunks(association_instructions, chunks);
     const association_summary = await answerQuery(association_instructions, association_relevantChunks);

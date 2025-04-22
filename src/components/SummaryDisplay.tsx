@@ -1,4 +1,4 @@
-import { SummaryData, Låneinformation } from "@/types/types";
+import { SummaryData } from "@/types/types";
 import BoardInfo from "./BoardInfo";
 import LoansTable from "./LoansTable"; // Uppdaterat komponentnamn
 import SummaryText from "./SummaryText";
