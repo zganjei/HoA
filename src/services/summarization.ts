@@ -2,8 +2,9 @@ import { answerQuery } from "@/services/llm";
 import { parsePDF } from "@/services/pdf-parser";
 import { retrieveRelevantChunks } from "@/services/vectorstore";
 import { fillTemplate, associationInstructionsTemplate, loanInstructionsTemplate } from "@/services/prompt-engineering";
+import { SummaryData } from "@/types/types";
 
-export async function summarizeReport(pdfBuffer: Buffer): Promise<any> {
+export async function summarizeReport(pdfBuffer: Buffer): Promise<SummaryData> {
     const chunks = await parsePDF(pdfBuffer);
 
     // --- Prompt Engineering for Association Details ---
@@ -44,10 +45,11 @@ export async function summarizeReport(pdfBuffer: Buffer): Promise<any> {
         const association = typeof association_summary === "string" ? JSON.parse(association_summary) : association_summary;
         const loan = typeof loan_summary === "string" ? JSON.parse(loan_summary) : loan_summary;
 
-        return {
+        const summary: SummaryData = {
             ...association,
             ...loan
         };
+        return summary;
     } catch (err) {
         console.error("JSON Parse error in summarization service:", err);
         throw new Error("Failed to parse LLM response in summarization service.");
